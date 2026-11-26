@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ten Artists, Two Worlds</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf7f2;--ink:#1d1b19;--muted:#6f6a63;--accent:#c8553d;--card:#fff;--line:#e8e2d9}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:18px 32px;background:rgba(250,247,242,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav b{font-family:Fraunces,serif;font-size:20px;font-weight:600}
+nav div{display:flex;gap:26px;font-size:14px;font-weight:500;color:var(--muted)}
+nav a:hover{color:var(--accent)}
+
+/* COVER */
+.cover{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 24px 80px;position:relative}
+.cover .tag{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.cover h1{font-family:Fraunces,serif;font-weight:400;font-size:clamp(52px,11vw,140px);line-height:.95;letter-spacing:-.03em;margin:22px 0}
+.cover h1 em{color:var(--accent)}
+.cover p{max-width:520px;color:var(--muted);font-size:18px;line-height:1.6}
+.cover .go{margin-top:36px;display:inline-block;background:var(--ink);color:#fff;padding:15px 28px;border-radius:99px;font-weight:600;transition:.25s}
+.cover .go:hover{background:var(--accent);transform:translateY(-2px)}
+.scroll{position:absolute;bottom:28px;font-size:12px;letter-spacing:.15em;color:var(--muted);animation:float 2s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(8px)}}
+
+/* SECTIONS */
+section.g{max-width:1280px;margin:auto;padding:90px 24px 40px}
+.head{display:flex;align-items:baseline;gap:18px;margin-bottom:36px;border-bottom:1px solid var(--line);padding-bottom:18px}
+.head span{font-family:Fraunces,serif;font-style:italic;color:var(--accent);font-size:22px}
+.head h2{font-family:Fraunces,serif;font-weight:400;font-size:clamp(32px,5vw,56px);letter-spacing:-.02em}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:24px}
+.card{background:var(--card);border-radius:16px;overflow:hidden;border:1px solid var(--line);opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s,box-shadow .3s}
+.card.in{opacity:1;transform:none}
+.card:hover{box-shadow:0 20px 40px -20px rgba(0,0,0,.25);transform:translateY(-6px)}
+.photo{aspect-ratio:4/5;background:#efe8dd;overflow:hidden;display:grid;place-items:center}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .6s}
+.card:hover img{transform:scale(1.05)}
+.photo .ini{font-family:Fraunces,serif;font-size:60px;color:var(--accent);opacity:.7}
+.info{padding:16px 18px 20px}
+.info h3{font-family:Fraunces,serif;font-weight:600;font-size:19px}
+.info .yr{color:var(--accent);font-size:13px;font-weight:700;margin:3px 0 8px}
+.info p{color:var(--muted);font-size:14px;line-height:1.5}
+
+footer{text-align:center;color:var(--muted);font-size:14px;padding:70px 24px 50px}
+@media(max-width:640px){nav div{display:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <b>Artists.</b>
+  <div><a href="#local">Philippines</a><a href="#intl">World</a></div>
+</nav>
+
+<header class="cover">
+  <span class="tag">A small gallery</span>
+  <h1>Ten artists,<br><em>two worlds.</em></h1>
+  <p>Five masters from the Philippines and five from around the globe, side by side.</p>
+  <a class="go" href="#local">Enter the gallery ↓</a>
+  <span class="scroll">SCROLL</span>
+</header>
+
+<section class="g" id="local">
+  <div class="head"><span>01</span><h2>Philippines</h2></div>
+  <div class="grid" id="gl"></div>
+</section>
+
+<section class="g" id="intl">
+  <div class="head"><span>02</span><h2>International</h2></div>
+  <div class="grid" id="gi"></div>
+</section>
+
+<footer>Photos via Wikipedia &amp; Wikimedia Commons.</footer>
+
+<script>
+// [name, years, known for, wikipedia title, search fallback, (optional) direct image URL]
+const LOCAL=[
+['Fernando Amorsolo','1892–1972','First National Artist; sunlit rural scenes and Dalagang Bukid.','Fernando_Amorsolo','Fernando Amorsolo painter'],
+['Juan Luna','1857–1899','Gold-medal masterpiece Spoliarium; historical and allegorical works.','Juan_Luna','Juan Luna painter'],
+['BenCab','b. 1942','National Artist for Visual Arts; paintings, prints and sculpture.','BenCab','BenCab Benedicto Cabrera'],
+['Napoleon Abueva','1930–2018','Father of Modern Philippine Sculpture; The Transfiguration.','Napoleon_Abueva','Napoleon Abueva sculptor'],
+['Anita Magsaysay-Ho','1914–2012','Modernist painter of stylized Filipino women at work.','Anita_Magsaysay-Ho','Anita Magsaysay-Ho painter','https://awarewomenartists.com/wp-content/uploads/2018/02/portrait_anita-magsaysay-ho_aware_women-artists_artistes-femmes.jpg']];
+const INTL=[
+['Leonardo da Vinci','1452–1519','Renaissance polymath; Mona Lisa and The Last Supper.','Leonardo_da_Vinci','Leonardo da Vinci'],
+['Vincent van Gogh','1853–1890','Post-Impressionist; The Starry Night and Sunflowers.','Vincent_van_Gogh','Vincent van Gogh self-portrait'],
+['Pablo Picasso','1881–1973','Co-founder of Cubism; Guernica.','Pablo_Picasso','Pablo Picasso'],
+['Frida Kahlo','1907–1954','Mexican painter of deeply personal self-portraits.','Frida_Kahlo','Frida Kahlo'],
+['Claude Monet','1840–1926','Founder of Impressionism; Water Lilies, Impression, Sunrise.','Claude_Monet','Claude Monet']];
+
+const WP='https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages&piprop=thumbnail&pithumbsize=700&redirects=1';
+const CM='https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrlimit=3&prop=imageinfo&iiprop=url&iiurlwidth=700&gsrsearch=';
+
+const firstThumb=d=>{const p=d&&d.query&&d.query.pages;if(!p)return null;
+  for(const k in p){if(p[k].thumbnail)return p[k].thumbnail.source}return null};
+const commonsPic=d=>{const p=d&&d.query&&d.query.pages;if(!p)return null;
+  for(const k in p){const i=p[k].imageinfo&&p[k].imageinfo[0];
+    if(i&&/\.(jpe?g|png)$/i.test(i.url))return i.thumburl||i.url}return null};
+
+async function findPhoto(a){
+  if(a[5])return a[5];
+  try{let s=firstThumb(await (await fetch(WP+'&titles='+a[3])).json());if(s)return s}catch(e){}
+  try{let s=firstThumb(await (await fetch(WP+'&generator=search&gsrlimit=1&gsrsearch='+encodeURIComponent(a[4]))).json());if(s)return s}catch(e){}
+  try{let s=commonsPic(await (await fetch(CM+encodeURIComponent(a[4]))).json());if(s)return s}catch(e){}
+  return null;
+}
+
+function build(list,id){
+  const grid=document.getElementById(id);
+  list.forEach(a=>{
+    const ini=a[0].split(' ').map(w=>w[0]).slice(0,2).join('');
+    const c=document.createElement('article');c.className='card';
+    c.innerHTML=`<div class="photo"><span class="ini">${ini}</span></div>
+      <div class="info"><h3>${a[0]}</h3><div class="yr">${a[1]}</div><p>${a[2]}</p></div>`;
+    grid.appendChild(c);
+    io.observe(c);
+    findPhoto(a).then(src=>{
+      if(!src)return;
+      const img=new Image();img.alt=a[0];
+      img.onload=()=>{const box=c.querySelector('.photo');box.innerHTML='';box.appendChild(img)};
+      img.src=src;
+    });
+  });
+}
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+build(LOCAL,'gl');build(INTL,'gi');
+</script>
+</body>
+</html>
